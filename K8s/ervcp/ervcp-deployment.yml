@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ervcp
+  namespace: ervcp
+  labels:
+    app: ervcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ervcp
+  template:
+    metadata:
+      labels:
+        app: ervcp
+    spec:
+      containers:
+      - name: ervcp
+        image: michalkozakgd/ataccama-devops-task:17
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 1
+            memory: 1Gi
+        ports:
+        - containerPort: 8080

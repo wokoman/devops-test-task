@@ -1,0 +1,23 @@
+# Compile the Go app using Alpine Golang image
+FROM golang:alpine as builder
+RUN mkdir /build/
+ADD /app/ /build/
+WORKDIR /build/
+# Tell go compiler to stastatically link the runtime libraries into the binary itself
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o .
+
+# Create scratch image with only the binary
+FROM scratch
+# Set ARG and ENVs for using CI/CD variables
+ARG LISTEN_PORT
+ARG REDIS_HOST
+ARG REDIS_PORT
+ARG REDIS_PW
+ENV ERVCP_PORT=$LISTEN_PORT
+ENV ERVCP_DB_HOST=$REDIS_HOST
+ENV ERVCP_DB_PORT=$REDIS_PORT
+ENV ERVCP_DB_PW=$REDIS_PW
+COPY --from=builder /build/ /app/
+WORKDIR /app/
+EXPOSE 8080
+ENTRYPOINT ["./ervcp"]
