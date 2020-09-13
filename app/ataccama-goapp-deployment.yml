@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ataccama-goapp
-  namespace: ataccama-dev-task
+  namespace: ataccama-devops-task
   labels:
     app: ataccama-goapp
 spec:
@@ -16,8 +16,8 @@ spec:
         app: ataccama-goapp
     spec:
       containers:
-      - name: master
-        image: michalkozakgd/ataccama-devops-task:5
+      - name: ataccama-goapp
+        image: michalkozakgd/ataccama-devops-task:11
         resources:
           requests:
             cpu: 100m
