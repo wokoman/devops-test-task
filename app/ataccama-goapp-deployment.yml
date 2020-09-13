@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ataccama-goapp
+  namespace: ataccama-dev-task
+  labels:
+    app: ataccama-goapp
+spec:
+  selector:
+    matchLabels:
+      app: ataccama-goapp
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ataccama-goapp
+    spec:
+      containers:
+      - name: master
+        image: michalkozakgd/ataccama-devops-task:5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 1
+            memory: 1Gi
+        ports:
+        - containerPort: 8080
